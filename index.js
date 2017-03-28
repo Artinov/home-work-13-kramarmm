@@ -40,6 +40,9 @@ var server = http.createServer(function(request, response) {
                 case ":":
                     result = n1 / n2;
                     break;
+                case "/":
+                    result = n1 / n2;
+                    break;
             }
             return result;
         }
