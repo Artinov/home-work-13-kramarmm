@@ -1,7 +1,6 @@
 var http = require('http');
 var port = 3000;
 
-
 var server = http.createServer(function(request, response) {
 
     if (request.url === '/favicon.ico') {
@@ -10,9 +9,28 @@ var server = http.createServer(function(request, response) {
     }
 
     if (request.url === '/') {
-        response.end("Hello this is a url calculator!\nEnter two numbers afrer \/ in url.");
+
+        response.end(
+            "Hello this is a url calculator!\n\n" +
+            "You can calculate two numbers:\n\n" +
+            "(2+2) - sum\n" +
+            "(2-2) - difference\n" +
+            "(2/2) or (2:2) - quotient\n" +
+            "(2*2) - result of multiplication\n\n" +
+            "All you need is just enter your expression after \"\/\" in url.\n\n" +
+            "Have fun!"
+        );
+
     } else if (/[^\/\+\-\*\:\d]/g.test(request.url)) {
-        response.end("Only numbers can be calculate.\nPlease, enter a number.");
+        response.end(
+            "Some problems in your expression :(\n\n" +
+            "Make sure that you try to calculate two numbers and use this operators:\n\n" +
+            "    +\n" +
+            "    -\n" +
+            "    *\n" +
+            "    /\n" +
+            "    :\n"
+            );
     } else {
         var number = request.url.slice(1);
         var numberArr = number.split(/[\/\+\-\*\:]/g);
@@ -23,7 +41,7 @@ var server = http.createServer(function(request, response) {
         if (numberArr[2] || signArr[2]) {
             response.end("Sorry, but I can calculate only two numbers for a time.");
         }
-        response.end("Success :)\n\n" + number + " = " + calculate(signArr[1], numberArr[0], numberArr[1]) + "");
+        response.end("Success :)\n\n" + number + " = " + calculate(signArr[1], numberArr[0], numberArr[1]));
     }
 
     function calculate(op, num1, num2) {
